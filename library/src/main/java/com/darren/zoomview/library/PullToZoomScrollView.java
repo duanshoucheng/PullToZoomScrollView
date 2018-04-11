@@ -3,6 +3,7 @@ package com.darren.zoomview.library;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,15 +17,28 @@ import android.widget.ScrollView;
 public class PullToZoomScrollView extends ScrollView {
     public PullToZoomScrollView(Context context) {
         super(context);
+        init(context, null);
     }
 
     public PullToZoomScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
     }
 
     public PullToZoomScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs);
     }
+
+    private void init(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ZoomView);
+        if (typedArray != null) {
+            mScaleRatio = typedArray.getFloat(R.styleable.ZoomView_ScaleRatio, 0.8f);
+            mScaleTimes = typedArray.getFloat(R.styleable.ZoomView_ReplyRatio, 2.0f);
+            typedArray.recycle();
+        }
+    }
+
     //    用于记录下拉位置
     private float y = 0f;
     //    zoomView原本的宽高
@@ -141,14 +155,14 @@ public class PullToZoomScrollView extends ScrollView {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        if (onScrollListener != null) {
-            onScrollListener.onScroll(l, t, oldl, oldt);
+        if (mOnScrollListener != null) {
+            mOnScrollListener.onScroll(l, t, oldl, oldt);
         }
     }
 
-    private OnScrollListener onScrollListener;
+    private OnScrollListener mOnScrollListener;
 
     public void setOnScrollListener(OnScrollListener onScrollListener) {
-        this.onScrollListener = onScrollListener;
+        mOnScrollListener = onScrollListener;
     }
 }

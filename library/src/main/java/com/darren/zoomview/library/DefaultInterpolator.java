@@ -3,7 +3,7 @@ package com.darren.zoomview.library;
 import android.view.animation.Interpolator;
 
 /**
- * Created by duanshoucheng on 2018/4/9.
+ * Created by darren on 2018/4/9.
  */
 
 public class DefaultInterpolator implements Interpolator {
